@@ -82,10 +82,9 @@ int main(){
     noeud* tete = NULL;
     int i;
     int n;
-    for( i = 0; i < 2; i++){
+    for( i = 0; i < 5; i++){
         printf("Entrer la valeur %d a ajouter: ", i+1);
         scanf("%d", &n);
-        //ajouterCroissant(&tete, n);
         ajouterCroissant(&tete, n);
         afficher(tete);
     }
