@@ -6,13 +6,6 @@ typedef struct noeud{
     struct noeud *suivant;
 }noeud;
 
-void afficher(noeud * tete){
-    noeud *aide = tete;
-    while(aide!= NULL){
-        printf("%d\n", aide->valeur);
-        aide = aide->suivant;
-    }
-}
 int recherche(noeud* tete, int v){
     noeud *p= tete;
     while(p!= NULL){
@@ -21,8 +14,8 @@ int recherche(noeud* tete, int v){
     }
     return 0;
 }
+
 void ajouterCroissant(noeud**phead, int v){
-    /* Seance 2*/
     if(recherche(*phead, v)){
         return;
     }
@@ -32,62 +25,73 @@ void ajouterCroissant(noeud**phead, int v){
     if(*phead == NULL){
         *phead = n;
     }else{
-        //Ajout au debut:
-        //n->suivant = *phead;
-        //*phead = n;
-        
-        if((*phead)->suivant == NULL){
-            if((*phead)->valeur > v){
-                n->suivant = *phead;
-                *phead = n;
-                //(*phead)->suivant = NULL;
-            }else{
-                (*phead)->suivant = n;
-            }
-            //(*phead)->suivant = n;
+        if((*phead)->valeur > v){
+            n->suivant = *phead;
+            *phead = n;
+        }else if ((*phead)->suivant == NULL){
+            (*phead)->suivant = n;
         }else{
+            noeud * aide = *phead;
+            while(aide->suivant->suivant != NULL && aide->valeur < v){
+                aide = aide ->suivant;
+            }
+            if(aide->suivant->valeur > v){
+                n->suivant = aide->suivant;
+                aide->suivant = n;
+            }else{
+                aide->suivant->suivant = n;
+            }
+        }
+    }
+}
+
+void supprimer(noeud**phead, int v){
+    if(recherche(*phead, v) == 0){
+        return;
+    }else{
+        noeud *aide = *phead;
+        if((*phead)->valeur == v){
+            *phead = aide->suivant;
+            free(aide);
+        }else{
+            while(aide->suivant != NULL){
+                if(aide->suivant->valeur == v){
+                    noeud* n = aide->suivant;
+                    aide->suivant = n->suivant;
+                    free(n);
+                    break;
+                }
+                aide = aide->suivant;
+            }
             
         }
-        
-
     }
-    /* Seance 1
-    if(recherche(*t, v))
-        return;
-    
-    noeud*n = malloc(sizeof(noeud));
-    n->valeur = v;
-    n->suivant = NULL;
-
-    
-    if(*t == NULL){
-        *t = n;
-    }else{
-        noeud* p = *t;
-        while(p->suivant!=NULL){
-            if(n->valeur < p->valeur)
-            {
-                n->suivant = p;
-                p = n;
-            }
-            p = p->suivant;
-        }
-        if(p->suivant==NULL){
-            p->suivant = n;
-        }
-    }
-    */
 }
+
+void afficher(noeud * tete){
+    noeud *aide = tete;
+    while(aide!= NULL){
+        printf("%d\n", aide->valeur);
+        aide = aide->suivant;
+    }
+}
+
 int main(){
     noeud* tete = NULL;
     int i;
     int n;
+    // teste d'ajout de 5 noeuds
     for( i = 0; i < 5; i++){
         printf("Entrer la valeur %d a ajouter: ", i+1);
         scanf("%d", &n);
         ajouterCroissant(&tete, n);
         afficher(tete);
     }
+
+    printf("Entrer la valeur a supprimer: ");
+    scanf("%d", &n);
+    supprimer(&tete, n);
+    afficher(tete);
     
     return 0;
 }
