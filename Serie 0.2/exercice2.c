@@ -16,18 +16,20 @@ struct noeud* inserer(struct noeud* tete, int v){
 }
 
 
-void insererQueue(struct noeud* tete, int v){
+struct noeud* insererQueue(struct noeud* tete, int v){
     struct noeud* n = malloc(sizeof(struct noeud));
     n->valeur = v;
     n->suivant = NULL;
     if(tete == NULL){
         tete = n;
     }else{
-        while(tete->suivant!= NULL){
-            tete = tete->suivant;
+        struct noeud* temp = tete;
+        while(temp->suivant!= NULL){
+            temp = temp->suivant;
         }
-        tete->suivant = n;
+        temp->suivant = n;
     }
+    return tete;
 }
 void afficher(struct noeud* t){
     while(t!=NULL){
