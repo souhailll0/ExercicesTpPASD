@@ -41,7 +41,14 @@ void afficherRecursive(struct noeud* tete){
         afficherRecursive(tete->suivant);
     }
 }
-
+int count(struct noeud*tete){
+    int c = 0;
+    while(tete!=NULL){
+        c++;
+        tete = tete->suivant;
+    }
+    return c;
+}
 void main(){
     struct noeud* tete = NULL;
     tete = inserer(tete, 5);
@@ -49,5 +56,5 @@ void main(){
     insererQueue(tete, 7);
     insererQueue(tete, 8);
     afficherRecursive(tete);
-
+    printf("Il y a %d de noeuds.\n", count(tete));
 }
