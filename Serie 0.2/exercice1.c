@@ -15,57 +15,28 @@ int recherche(noeud* tete, int v){
     return 0;
 }
 
-void ajouterCroissant(noeud**phead, int v){
-    if(recherche(*phead, v)){
-        return;
-    }
-    noeud * n = malloc(sizeof(noeud));
-    n->valeur = v;
-    n->suivant = NULL;
-    if(*phead == NULL){
-        *phead = n;
-    }else{
-        if((*phead)->valeur > v){
-            n->suivant = *phead;
-            *phead = n;
-        }else if ((*phead)->suivant == NULL){
-            (*phead)->suivant = n;
-        }else{
-            noeud * aide = *phead;
-            while(aide->suivant->suivant != NULL && aide->valeur < v){
-                aide = aide ->suivant;
-            }
-            if(aide->suivant->valeur > v){
-                n->suivant = aide->suivant;
-                aide->suivant = n;
-            }else{
-                aide->suivant->suivant = n;
-            }
-        }
-    }
+noeud* ajouter_debut(noeud* tete){
+    noeud* p = malloc(sizeof(noeud));
+    printf("Donner la valeur: ");
+    scanf("%d", &p->valeur);
+    p->suivant = tete;
+    return p;
 }
 
-void supprimer(noeud**phead, int v){
-    if(recherche(*phead, v) == 0){
-        return;
-    }else{
-        noeud *aide = *phead;
-        if((*phead)->valeur == v){
-            *phead = aide->suivant;
-            free(aide);
-        }else{
-            while(aide->suivant != NULL){
-                if(aide->suivant->valeur == v){
-                    noeud* n = aide->suivant;
-                    aide->suivant = n->suivant;
-                    free(n);
-                    break;
-                }
-                aide = aide->suivant;
-            }
-            
-        }
+void ajouter_fin(noeud* tete){
+    noeud* n = malloc(sizeof(noeud));
+    printf("Donner la valeur: ");
+    scanf("%d", &n->valeur);
+    noeud* p = tete;
+    while(p->suivant != NULL){
+        p = p->suivant;
     }
+    p->suivant = n;
+}
+noeud* supprimer_debut(noeud* tete){
+    noeud* aide = tete->suivant;
+    free(tete);
+    return aide;
 }
 
 void afficher(noeud * tete){
@@ -79,18 +50,13 @@ void afficher(noeud * tete){
 int main(){
     noeud* tete = NULL;
     int i;
-    int n;
-    // teste d'ajout de 5 noeuds
+    // teste d'ajout de 5 noeuds 
     for( i = 0; i < 5; i++){
-        printf("Entrer la valeur %d a ajouter: ", i+1);
-        scanf("%d", &n);
-        ajouterCroissant(&tete, n);
+        tete = ajouter_debut(tete);
         afficher(tete);
     }
 
-    printf("Entrer la valeur a supprimer: ");
-    scanf("%d", &n);
-    supprimer(&tete, n);
+    tete = supprimer_debut(tete);
     afficher(tete);
     
     return 0;
