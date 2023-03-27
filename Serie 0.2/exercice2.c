@@ -7,16 +7,15 @@ typedef struct noeud{
 }noeud;
 
 struct noeud* inserer(struct noeud* tete, int v){
-    struct noeud* n = malloc(sizeof(struct noeud));
+    noeud* n = (noeud*) malloc(sizeof(noeud));
     n->valeur = v;
     n->suivant = tete;
 
     return n;
 }
 
-
 struct noeud* insererQueue(struct noeud* tete, int v){
-    struct noeud* n = malloc(sizeof(struct noeud));
+    struct noeud* n = (noeud*) malloc(sizeof(struct noeud));
     n->valeur = v;
     n->suivant = NULL;
     if(tete == NULL){
@@ -30,7 +29,21 @@ struct noeud* insererQueue(struct noeud* tete, int v){
     }
     return tete;
 }
-void affiche
+void afficher(noeud* tete){
+    if(tete){
+        printf("%d\n", tete->valeur);
+        afficher(tete->suivant);
+    }
+}
+int compter(struct noeud*tete){
+    int c = 0;
+    while(tete!=NULL){
+        c++;
+        tete = tete->suivant;
+    }
+    return c;
+}
+
 void main(){
     
 }
